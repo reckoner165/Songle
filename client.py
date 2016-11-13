@@ -1,5 +1,6 @@
 import socket
 import pyaudio
+import sys
 
 HOST = 'localhost'
 PORT = 9876
@@ -12,6 +13,7 @@ p = pyaudio.PyAudio()
 
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client.connect(ADDR)
+# key = input('Enter key')
 
 # client.listen(5)
 
@@ -26,18 +28,19 @@ while True:
                 rate        = RATE,
                 input       = False,
                 output      = True )
-    client.sendall('Request!')
+    client.sendall(sys.argv[1])
 
 
     while True:
         data = client.recv(BUFSIZE)
         if not data: break
+
         stream.write(data)
         # print 'writing file ....'
 
     stream.close()
     print 'finished writing file'
-    conn.close()
+    client.close()
     print 'client disconnected'
     p.terminate()
 

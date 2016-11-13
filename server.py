@@ -5,9 +5,6 @@ PORT = 9876
 ADDR = (HOST,PORT)
 BUFSIZE = 4096
 
-videofile = 'BeatlesHelpStereo.wav'
-bytes = open(videofile).read()
-print len(bytes)
 
 serv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 # print serv
@@ -21,8 +18,20 @@ while True:
   while True:
     data = conn.recv(1024)
     if not data: break
-    print data
-    conn.sendall(bytes)
+    try:
+      print data
+      file = 'music_dir/' + data + '.wav'
+
+
+      bytes = open(file).read()
+      conn.sendall(bytes)
+      print 'sending'
+
+    except IOError as e:
+      print e
+      print 'Invalid key'
+      break
+
 
 
 print "sent!"
