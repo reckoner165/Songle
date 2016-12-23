@@ -86,53 +86,53 @@ def whisperisation(input_tuple, BLOCKSIZE):
 	return output_block
 	
 
-# def vibrato(BLOCKSIZE , f0 , W):
-#
-# 	# Create a buffer (delay line) for past values
-# 	buffer_MAX =  1024                          # Buffer length
-# 	buffer = [0.0 for i in range(buffer_MAX)]   # Initialize to zero
-#
-# 	# Buffer (delay line) indices
-# 	kr = 0  # read index
-# 	kw = int(0.5 * buffer_MAX)  # write index (initialize to middle of buffer)
-# 	kw = buffer_MAX/2
-#
-# 	# Get previous and next buffer values (since kr is fractional)
-#     kr_prev = int(math.floor(kr))
-#     kr_next = kr_prev + 1
-#     frac = kr - kr_prev    # 0 <= frac < 1
-#     if kr_next >= buffer_MAX:
-#         kr_next = kr_next - buffer_MAX
-#
-#     # Compute output value using interpolation
-#     output_value = (1-frac) * buffer[kr_prev] + frac * buffer[kr_next]
-#
-#     # Update buffer (pure delay)
-#     buffer[kw] = input_value
-#
-#     # Increment read index
-#     kr = kr + 1 + W * math.sin( 2 * math.pi * f0 * n / RATE )
-#         # Note: kr is fractional (not integer!)
-#
-#     # Ensure that 0 <= kr < buffer_MAX
-#     if kr >= buffer_MAX:
-#         # End of buffer. Circle back to front.
-#         kr = 0
-#
-#     # Increment write index
-#     kw = kw + 1
-#     if kw == buffer_MAX:
-#         # End of buffer. Circle back to front.
-#         kw = 0
+def vibrato(BLOCKSIZE , f0 , W):
 
-#
-# def butter_bandpass(data, lowcut, highcut, fs, order):
-# 	nyq = 0.5 * fs
-# 	low = lowcut / nyq
-# 	high = highcut / nyq
-# 	b, a = butter(order, [low, high], btype='band')
-# 	y = lfilter(b, a, data)
-# 	return y
-#
+	# Create a buffer (delay line) for past values
+	buffer_MAX =  1024                          # Buffer length
+	buffer = [0.0 for i in range(buffer_MAX)]   # Initialize to zero
+
+	# Buffer (delay line) indices
+	kr = 0  # read index
+	kw = int(0.5 * buffer_MAX)  # write index (initialize to middle of buffer)
+	kw = buffer_MAX/2
+
+	# Get previous and next buffer values (since kr is fractional)
+    kr_prev = int(math.floor(kr))
+    kr_next = kr_prev + 1
+    frac = kr - kr_prev    # 0 <= frac < 1
+    if kr_next >= buffer_MAX:
+        kr_next = kr_next - buffer_MAX
+
+    # Compute output value using interpolation
+    output_value = (1-frac) * buffer[kr_prev] + frac * buffer[kr_next]
+
+    # Update buffer (pure delay)
+    buffer[kw] = input_value
+
+    # Increment read index
+    kr = kr + 1 + W * math.sin( 2 * math.pi * f0 * n / RATE )
+        # Note: kr is fractional (not integer!)
+
+    # Ensure that 0 <= kr < buffer_MAX
+    if kr >= buffer_MAX:
+        # End of buffer. Circle back to front.
+        kr = 0
+
+    # Increment write index
+    kw = kw + 1
+    if kw == buffer_MAX:
+        # End of buffer. Circle back to front.
+        kw = 0
+
+
+def butter_bandpass(data, lowcut, highcut, fs, order):
+	nyq = 0.5 * fs
+	low = lowcut / nyq
+	high = highcut / nyq
+	b, a = butter(order, [low, high], btype='band')
+	y = lfilter(b, a, data)
+	return y
+
 	
 	
