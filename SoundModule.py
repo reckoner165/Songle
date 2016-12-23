@@ -2,6 +2,8 @@ __author__ = 'Sumanth Srinivasan'
 
 # Module containing real-time audio processing functions to generate tones and apply effects over a given block
 
+# Created by Sumanth Srinivasan, December 2016
+
 import math
 import struct
 from math import cos

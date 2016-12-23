@@ -1,3 +1,6 @@
+# Client program for the Receiver module in Marionet.
+# Created by Sumanth Srinivasan in December 2016.
+
 import socket
 import pyaudio
 import sys
@@ -96,10 +99,6 @@ def pan_handler(add, tags, stuff, source):
 
     pan = stuff[0]
 
-    # label_msg = OSC.OSCMessage()
-    # label_msg.setAddress("/1/memory2")
-    # label_msg.append(gain_robot)
-    # osc_c.send(label_msg)
 
 # Patching OSC messages to respective handler functions
 osc_s.addMsgHandler("/1/fader1",gain_handler)
@@ -113,16 +112,13 @@ for addr in osc_s.getOSCAddressSpace():
 print "\nStarting OSCServer. Use ctrl-C to quit."
 st = threading.Thread( target = osc_s.serve_forever)
 st.start()
-#
+
 
 # PyAudio
 RATE = 44100
 p = pyaudio.PyAudio()
 
 while True:
-    # data = client.recv(BUFSIZE)
-    # print 'server connected ... ', addr
-    # myfile = open('testfile.wav', 'w')
 
     # Setup stream
     stream = p.open(format      = pyaudio.paInt16,
@@ -155,12 +151,10 @@ while True:
         effects_main = tuple([z * gain for z in effects_in])
 
         effects_out = sm.mix(robot, effects_main)
-
         effects_out = sm.clip(0.5,1,effects_out)
 
         # OUTPUT TRACK WITH EFFECTS
 
-        # output = struct.pack('h'*2048, *effects_out)
         output = sm.pan_stereo(effects_out,1-pan,pan)
         stream.write(output)
         print 'writing file ....'
